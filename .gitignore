@@ -1,3 +1,11 @@
+# vim
+tags
+**/tags
+
+# env
+.env
+**/.env
+
 # Logs
 logs
 *.log
