@@ -29,19 +29,26 @@ export class ExpensesService {
     return this.expenseRepository.save(expense);
   }
 
-  findAll() {
+  async findAll() {
     return this.expenseRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} expense`;
+  async findOne(id: number) {
+    return this.expenseRepository.findOne({ where: { id } });
   }
 
-  update(id: number, updateExpenseDto: UpdateExpenseDto) {
-    return `This action updates a #${id} expense`;
+  async update(id: number, updateExpenseDto: UpdateExpenseDto) {
+    const expense = await this.expenseRepository.findOne({ where: { id } });
+
+    if (!expense) {
+      throw new NotFoundException('Expense not found');
+    }
+
+    await this.expenseRepository.update(id, updateExpenseDto);
+    return this.expenseRepository.findOne({ where: { id } });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} expense`;
+    return this.expenseRepository.delete(id);
   }
 }
