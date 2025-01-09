@@ -1,13 +1,7 @@
-export interface Expense {
-  id: number;
-  amount: number;
-  description: string;
-  date: Date;
-  user: number;
-}
+import { ExpenseType } from '../../types'
 
 interface ExpenseProps {
-  expense: Expense;
+  expense: ExpenseType;
 }
 
 export const Expense: React.FC<ExpenseProps> = ({expense}) => {
