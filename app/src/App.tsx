@@ -1,5 +1,5 @@
 import './App.css'
-import ExpenseList from './components/expense/ExpenseList'
+import ExpenseList from './components/Expense/ExpenseList'
 import Header from './components/Header'
 
 const App = () => {

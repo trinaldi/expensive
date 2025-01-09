@@ -23,7 +23,7 @@ const ExpenseList: React.FC<ExpenseListProps> = () => {
         ))}
       </ul>
     </div>
-  );
-};
+  )
+}
 
-export default ExpenseList;
+export default ExpenseList
