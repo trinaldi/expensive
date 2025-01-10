@@ -36,11 +36,14 @@ export class UsersService {
   }
 
   async findAll(): Promise<User[]> {
-    return await this.userRepository.find();
+    return await this.userRepository.find({ relations: ['expenses'] });
   }
 
   async findOne(id: number) {
-    return await this.userRepository.findOne({ where: { id } });
+    return await this.userRepository.findOne({
+      where: { id },
+      relations: ['expenses'],
+    });
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {

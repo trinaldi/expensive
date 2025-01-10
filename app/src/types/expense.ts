@@ -2,6 +2,6 @@ export type ExpenseType = {
   id: number;
   amount: number;
   description: string;
-  date: Date;
+  date: string;
   user: number;
 }

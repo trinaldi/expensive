@@ -7,13 +7,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Expense } from './resources/expenses/entities/expense.entity';
 import { User } from './resources/users/entities/user.entity';
 import { config } from 'dotenv';
-import { dataSourceOptions } from './db/data-source';
+import { dbdatasource } from './db/data.source';
 
 config();
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(dataSourceOptions),
+    TypeOrmModule.forRoot(dbdatasource),
     TypeOrmModule.forFeature([Expense, User]),
   ],
   controllers: [ExpensesController, UsersController],
