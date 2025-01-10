@@ -9,7 +9,7 @@ const ExpenseList: React.FC<ExpenseListProps> = ({ expenses }) => {
   return (
     <div className="flex flex-col items-center w-full">
       <ul className="justify-center w-96">
-        {expenses.map((expense) => (
+        {expenses?.map((expense) => (
           <ExpenseComponent expense={expense} />
         ))}
       </ul>
