@@ -1,18 +1,19 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.css'
 import Header from './components/Header'
-import UserList from './components/User/UserList'
-import { useUsers } from './hooks/useUsers'
+import { AuthProvider } from './context/AuthContext'
+import LoginPage from './pages/LoginPage'
 
 const App = () => {
-  const { users, loading } = useUsers()
-
   return (
-    <>
-      <Header title="Expensive" />
-      <main>
-        { loading ? <p>Loading...</p> : <UserList users={users}/> }
-      </main>
-    </>
+    <AuthProvider>
+      <Header />
+      <Router>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   )
 }
 

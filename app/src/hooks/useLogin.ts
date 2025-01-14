@@ -1,16 +1,18 @@
-import { useState } from "react"
+import { useState } from 'react'
+import { useAuth } from '../context/AuthContext'
 
 interface UseLoginResult {
-  login: (email: string, password: string) => Promise<void>;
-  error: string | null;
-  isLoading: boolean;
+  login: (email: string, password: string) => Promise<void>
+  error: string | null
+  isLoading: boolean
 }
 
-const useLogin = () : UseLoginResult => {
+const useLogin = (): UseLoginResult => {
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+  const { setIsLoggedIn } = useAuth()
 
-  const login = async(email: string, password: string) => {
+  const login = async (email: string, password: string) => {
     setIsLoading(true)
     setError(null)
 
@@ -26,6 +28,7 @@ const useLogin = () : UseLoginResult => {
       if (response.ok) {
         const data = await response.json()
         localStorage.setItem('token', data.token)
+        setIsLoggedIn(true)
       } else {
         const data = await response.json()
         setError(data.message || 'Login failed')
