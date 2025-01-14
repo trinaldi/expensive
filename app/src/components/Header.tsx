@@ -1,11 +1,11 @@
-interface HeaderProps {
-  title: string;
-}
-
-const Header: React.FC<HeaderProps> = ({ title }) => {
+import { useAuth } from '../context/AuthContext'
+const Header = () => {
+  const { email } = useAuth()
   return (
     <header className="sticky top-0 z-10 px-6 py-4 text-white bg-gray-800 border-b shadow">
-      <h1 className="text-2xl font-bold uppercase md:text-4xl">{title}</h1>
+      <h1 className="text-xl font-bold lowercase md:text-2xl">
+        {email ? `Welcome, ${email}` : 'Expensive'}
+      </h1>
     </header>
   )
 }
