@@ -53,8 +53,13 @@ pnpm install
 1. Create a `.env` file in the `api` directory with the following environment variables:
 
    ```env
-   DATABASE_URL=postgresql://<user>:<password>@localhost:5432/expensive
-   JWT_SECRET=<your-secret-key>
+   PORT=3000
+   DB_HOST=
+   DB_PORT=
+   DB_USER=
+   DB_PASSWORD=
+   DB_NAME=expensive
+   JWT_SECRET_KEY=
    ```
 
 2. Run database migrations:
@@ -78,13 +83,7 @@ cd ../app
 pnpm install
 ```
 
-1. Create a `.env` file in the `app` directory with the following environment variables:
-
-   ```env
-   VITE_API_URL=http://localhost:3000
-   ```
-
-2. Start the development server:
+1. Start the development server:
 
    ```bash
    pnpm run dev
@@ -100,7 +99,7 @@ The React app will be available at `http://localhost:5173`.
 
 ## Custom Hooks
 
-The React app uses custom hooks for data fetching, such as `useFetchWithAuth`, which handles API requests and redirects to the login page if the user is unauthorized.
+The React app uses custom hooks for data fetching, such as `useLogin`, which handles API requests and redirects to the login page if the user is unauthorized.
 
 ## Authentication
 
