@@ -1,14 +1,19 @@
 import { useEffect, useState } from 'react'
 import { UserType } from '../types'
+import decodeToken from '../utils/decodeToken'
 
-const useUserExpenses = (userId: string) => {
+const useUserExpenses = () => {
   const [user, setUser] = useState<UserType | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
+  const token = localStorage.getItem('token')
+
+  let userId
+  if (token) {
+    userId = decodeToken(token).userId
+  }
 
   useEffect(() => {
-    if (!userId) return
-
     const fetchUserExpenses = async () => {
       setLoading(true)
       setError(null)

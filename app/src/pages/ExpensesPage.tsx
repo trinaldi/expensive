@@ -2,10 +2,11 @@ import useUserExpenses from '../hooks/useUserExpenses'
 import { useAuth } from '../context/AuthContext'
 import { Navigate } from 'react-router-dom'
 import ExpenseList from '../components/Expense/ExpenseList'
+import AddExpense from '../components/Expense/AddExpense'
 
 const ExpensesPage = () => {
-  const { isLoggedIn, userId } = useAuth()
-  const { user, loading, error } = useUserExpenses(userId as string)
+  const { isLoggedIn } = useAuth()
+  const { user, loading, error } = useUserExpenses()
 
   if (!isLoggedIn) {
     return <Navigate to="/login" />
@@ -16,6 +17,7 @@ const ExpensesPage = () => {
   return (
     <div>
       <ExpenseList expenses={user!.expenses} />
+      <AddExpense />
     </div>
   )
 }
