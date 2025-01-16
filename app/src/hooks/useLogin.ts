@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useAuth } from '../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 interface UseLoginResult {
   login: (email: string, password: string) => Promise<void>
@@ -10,7 +10,7 @@ interface UseLoginResult {
 const useLogin = (): UseLoginResult => {
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
-  const { setIsLoggedIn } = useAuth()
+  const navigate = useNavigate()
 
   const login = async (email: string, password: string) => {
     setIsLoading(true)
@@ -28,7 +28,8 @@ const useLogin = (): UseLoginResult => {
       if (response.ok) {
         const data = await response.json()
         localStorage.setItem('token', data.token)
-        setIsLoggedIn(true)
+
+        navigate('/expenses')
       } else {
         const data = await response.json()
         setError(data.message || 'Login failed')

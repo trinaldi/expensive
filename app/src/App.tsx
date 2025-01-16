@@ -3,6 +3,7 @@ import './App.css'
 import Header from './components/Header'
 import { AuthProvider } from './context/AuthContext'
 import LoginPage from './pages/LoginPage'
+import ExpensesPage from './pages/ExpensesPage'
 
 const App = () => {
   return (
@@ -11,6 +12,7 @@ const App = () => {
       <Router>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/expenses" element={<ExpensesPage />} />
         </Routes>
       </Router>
     </AuthProvider>

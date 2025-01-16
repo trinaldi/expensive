@@ -1,8 +1,8 @@
 import { UserType } from '../../types'
-import { User as UserComponent} from './User'
+import { User as UserComponent } from './User'
 
 type UserListProps = {
-  users: UserType[];
+  users: UserType[]
 }
 
 const UserList: React.FC<UserListProps> = ({ users }) => {
@@ -10,7 +10,7 @@ const UserList: React.FC<UserListProps> = ({ users }) => {
     <div className="flex flex-col items-center w-full">
       <ul className="justify-center w-96">
         {users.map((user) => (
-          <UserComponent user={user} />
+          <UserComponent key={user.id} user={user} />
         ))}
       </ul>
     </div>

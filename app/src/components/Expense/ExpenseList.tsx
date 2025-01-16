@@ -2,7 +2,7 @@ import { Expense as ExpenseComponent } from './Expense'
 import { ExpenseType } from '../../types'
 
 interface ExpenseListProps {
-  expenses: ExpenseType[];
+  expenses: ExpenseType[]
 }
 
 const ExpenseList: React.FC<ExpenseListProps> = ({ expenses }) => {
@@ -10,7 +10,7 @@ const ExpenseList: React.FC<ExpenseListProps> = ({ expenses }) => {
     <div className="flex flex-col items-center w-full">
       <ul className="justify-center w-96">
         {expenses?.map((expense) => (
-          <ExpenseComponent expense={expense} />
+          <ExpenseComponent key={expense.id} expense={expense} />
         ))}
       </ul>
     </div>
