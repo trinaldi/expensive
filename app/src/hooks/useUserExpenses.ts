@@ -8,12 +8,18 @@ const useUserExpenses = () => {
   const [error, setError] = useState<string | null>(null)
   const token = localStorage.getItem('token')
 
-  let userId
-  if (token) {
-    userId = decodeToken(token).userId
-  }
+  const [userId, setUserId] = useState<string | null>(null)
 
   useEffect(() => {
+    if (token) {
+      const decodedToken = decodeToken(token)
+      setUserId(decodedToken!.userId)
+    }
+  }, [token])
+
+  useEffect(() => {
+    if (!userId) return
+
     const fetchUserExpenses = async () => {
       setLoading(true)
       setError(null)
@@ -38,7 +44,11 @@ const useUserExpenses = () => {
     fetchUserExpenses()
   }, [userId])
 
-  return { user, loading, error }
+  const updateUserExpenses = (updatedUser: UserType) => {
+    setUser(updatedUser)
+  }
+
+  return { user, loading, error, updateUserExpenses }
 }
 
 export default useUserExpenses

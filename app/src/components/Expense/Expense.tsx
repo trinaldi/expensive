@@ -11,7 +11,7 @@ export const Expense: React.FC<ExpenseProps> = ({ expense }) => {
         <p className="text-lg font-bold">{expense.description}</p>
         <p>R$ {expense.amount}</p>
       </div>
-      <div className="flex items-center flex-1 p-4 ">
+      <div className="flex justify-end items-center flex-1 p-4 ">
         {new Date(expense.date).toLocaleDateString('pt-br')}
       </div>
     </li>
