@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 interface UseLoginResult {
@@ -8,9 +9,10 @@ interface UseLoginResult {
 }
 
 const useLogin = (): UseLoginResult => {
+  const { setIsLoggedIn } = useAuth()
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
-  const { setIsLoggedIn } = useAuth()
+  const navigate = useNavigate()
 
   const login = async (email: string, password: string) => {
     setIsLoading(true)
@@ -29,6 +31,8 @@ const useLogin = (): UseLoginResult => {
         const data = await response.json()
         localStorage.setItem('token', data.token)
         setIsLoggedIn(true)
+
+        navigate('/expenses')
       } else {
         const data = await response.json()
         setError(data.message || 'Login failed')
@@ -36,6 +40,7 @@ const useLogin = (): UseLoginResult => {
     } catch (e) {
       const error = e as Error
       setError(error.message || 'An error ocorred')
+      setIsLoggedIn(false)
     } finally {
       setIsLoading(false)
     }

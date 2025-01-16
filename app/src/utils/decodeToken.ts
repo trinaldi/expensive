@@ -1,9 +1,19 @@
 import { jwtDecode } from 'jwt-decode'
 
-const decodeToken = (token: string) => {
+interface DecodedToken {
+  userId: string
+  name: string
+  email: string
+}
+
+const decodeToken = (token: string): DecodedToken | null => {
   try {
-    const decoded: any = jwtDecode(token)
-    return decoded?.email
+    const decoded: DecodedToken = jwtDecode(token)
+    return {
+      userId: decoded?.userId,
+      name: decoded?.name,
+      email: decoded?.email,
+    }
   } catch (error) {
     console.error('Invalid token', error)
     return null
