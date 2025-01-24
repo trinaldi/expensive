@@ -1,21 +1,39 @@
 import { useState } from 'react'
-import { CreateExpenseType } from '../types'
+import { ExpenseType } from '../types'
+
+const URL = 'http://localhost:3000/expenses'
+
+const checkToken = (token?: string): string | undefined => {
+  if (token === undefined) {
+    const storedToken = localStorage.getItem('token')
+    return storedToken ? storedToken : undefined
+  }
+  return token
+}
 
 const useAddExpense = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<boolean>(false)
 
-  const addExpense = async (expense: CreateExpenseType) => {
+  const addExpense = async (expense: ExpenseType, token?: string) => {
     setLoading(true)
     setError(null)
     setSuccess(false)
+    token = checkToken(token)
+
+    if (!token) {
+      console.error('no token was given')
+      setError('no token was given')
+      setLoading(false)
+    }
 
     try {
-      const response = await fetch('http://localhost:3000/expenses', {
+      const response = await fetch(URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(expense),
       })
