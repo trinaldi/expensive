@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
+const LOGIN_URL = 'http://localhost:3000/auth/login'
+
 interface UseLoginResult {
   login: (email: string, password: string) => Promise<void>
   error: string | null
@@ -19,7 +21,7 @@ const useLogin = (): UseLoginResult => {
     setError(null)
 
     try {
-      const response = await fetch('http://localhost:3000/auth/login', {
+      const response = await fetch(LOGIN_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
