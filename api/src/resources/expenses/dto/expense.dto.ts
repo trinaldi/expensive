@@ -1,25 +1,25 @@
 import {
-  IsNotEmpty,
-  IsNumber,
-  IsPositive,
-  IsString,
-  IsDate,
+	IsNotEmpty,
+	IsNumber,
+	IsPositive,
+	IsString,
+	IsDate,
 } from 'class-validator';
 
 export class ExpenseDto {
-  @IsNotEmpty()
-  @IsString()
-  description: string;
+	@IsNotEmpty()
+	@IsString()
+	description: string;
 
-  @IsNotEmpty()
-  @IsNumber()
-  @IsPositive()
-  amount: number;
+	@IsNotEmpty()
+	@IsNumber()
+	@IsPositive()
+	amount: number;
 
-  @IsNotEmpty()
-  @IsDate()
-  date: Date;
+	@IsNotEmpty()
+	@IsDate()
+	date: Date;
 
-  @IsNotEmpty()
-  userId: number;
+	@IsNotEmpty()
+	userId: number;
 }
