@@ -11,7 +11,7 @@ import { dbdatasource } from './db/data.source';
 import { AuthService } from './auth/auth.service';
 import { AuthController } from './auth/auth.controller';
 import { JwtModule } from '@nestjs/jwt';
-
+import { AppLogger } from './resources/logger/logger.service';
 config();
 
 @Module({
@@ -24,7 +24,7 @@ config();
     }),
   ],
   controllers: [ExpensesController, UsersController, AuthController],
-  providers: [ExpensesService, UsersService, AuthService],
-  exports: [ExpensesService, UsersService, AuthService],
+  providers: [ExpensesService, UsersService, AuthService, AppLogger],
+  exports: [ExpensesService, UsersService, AuthService, AppLogger],
 })
 export class AppModule {}

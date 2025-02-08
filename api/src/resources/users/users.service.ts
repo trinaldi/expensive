@@ -1,6 +1,5 @@
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Expense } from '../expenses/entities/expense.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   Injectable,
@@ -9,25 +8,22 @@ import {
 } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
+import { AppLogger } from '../logger/logger.service';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(Expense)
-    private readonly expenseRepository: Repository<Expense>,
-
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly logger: AppLogger,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     const { email, password, ...dto } = createUserDto;
 
-    const user = await this.userRepository.findOne({ where: { email } });
-    if (user) {
-      throw new ConflictException('Email already in use');
-    }
+    const user = await this.findByEmail(email);
+    this.checkUserExists(user);
 
     const hashedPassword = await this.hashPassword(password);
     const userToBe = { ...dto, email, password: hashedPassword };
@@ -52,17 +48,15 @@ export class UsersService {
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     const { email, password, ...dto } = updateUserDto;
-    const user = await this.userRepository.findOne({ where: { id } });
+    const user = await this.findOne(id);
 
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
+    this.checkUserMissing(user);
 
     const hashedPassword = await this.hashPassword(password);
     const updatedUser = { ...dto, email, password: hashedPassword };
 
     await this.userRepository.update(id, updatedUser);
-    return await this.userRepository.findOne({ where: { id } });
+    return await this.findOne(id);
   }
 
   async remove(id: number) {
@@ -72,5 +66,19 @@ export class UsersService {
   private async hashPassword(password: string): Promise<string> {
     const salt = await bcrypt.genSalt();
     return bcrypt.hash(password, salt);
+  }
+
+  private checkUserExists(user: User): void {
+    if (user) {
+      this.logger.error('Email already in use');
+      throw new ConflictException('Email already in use');
+    }
+  }
+
+  private checkUserMissing(user: User): void {
+    if (!user) {
+      this.logger.error('User not found');
+      throw new NotFoundException('User not found');
+    }
   }
 }
