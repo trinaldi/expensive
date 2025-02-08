@@ -23,7 +23,7 @@ export class UsersService {
     const { email, password, ...dto } = createUserDto;
 
     const user = await this.findByEmail(email);
-    this.checkUserExists(user);
+    this.checkUser(user);
 
     const hashedPassword = await this.hashPassword(password);
     const userToBe = { ...dto, email, password: hashedPassword };
@@ -50,7 +50,7 @@ export class UsersService {
     const { email, password, ...dto } = updateUserDto;
     const user = await this.findOne(id);
 
-    this.checkUserMissing(user);
+    this.checkUser(user);
 
     const hashedPassword = await this.hashPassword(password);
     const updatedUser = { ...dto, email, password: hashedPassword };
@@ -68,15 +68,11 @@ export class UsersService {
     return bcrypt.hash(password, salt);
   }
 
-  private checkUserExists(user: User): void {
+  private checkUser(user: User): void {
     if (user) {
-      this.logger.error('Email already in use');
-      throw new ConflictException('Email already in use');
-    }
-  }
-
-  private checkUserMissing(user: User): void {
-    if (!user) {
+      this.logger.error('User already exists');
+      throw new ConflictException('User already exists');
+    } else {
       this.logger.error('User not found');
       throw new NotFoundException('User not found');
     }
